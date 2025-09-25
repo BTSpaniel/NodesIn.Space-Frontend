@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Node Editor</title>
+    <link rel="stylesheet" href="css/node-editor-style.css?v=20250921-2012">
+    <link rel="stylesheet" href="css/workflow-modals.css?v=20250921-2012">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Menu Bar -->
+        <header class="menu-bar">
+            <div class="menu-left">
+                <h1>AGI Node Editor</h1>
+                <button id="new-workflow" class="btn" onclick="window.app && window.app.newWorkflow()">New</button>
+                <button id="save-workflow" class="btn" onclick="window.app && window.app.saveWorkflow()">Save</button>
+                <button id="load-workflow" class="btn" onclick="window.app && window.app.loadWorkflow()">Load</button>
+            </div>
+            <div class="menu-right">
+                <button id="execute-workflow" class="btn btn-primary" onclick="window.app && window.app.executeWorkflow()">Execute</button>
+                <div class="ping-indicator" style="margin-right:12px;display:flex;align-items:center;gap:6px;">
+                    <span id="ping-label">Ping:</span>
+                    <span id="ping-value">--</span><span class="ping-unit">ms</span>
+                </div>
+                <div class="status-indicator">
+                    <span id="connection-status" class="status-disconnected">●</span>
+                    <span id="status-text">Disconnected</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Sidebar - Node Palette -->
+            <aside class="sidebar-left">
+                <div class="sidebar-header">
+                    <h3>Node Library</h3>
+                    <input type="text" id="node-search" placeholder="Search nodes..." class="search-input">
+                </div>
+                <div id="node-palette" class="node-palette">
+                    <!-- Node categories will be populated by JavaScript -->
+                </div>
+            </aside>
+
+            <!-- Main Canvas Area -->
+            <main class="canvas-container">
+                <div id="workflow-canvas" class="workflow-canvas">
+                    <div id="grid-layer" class="grid-layer"></div>
+                    <div class="sunbeam"></div>
+                    <svg id="connections-svg" class="connections-layer">
+                        <!-- Node connections will be drawn here -->
+                    </svg>
+                    <div id="nodes-container" class="nodes-layer">
+                        <!-- Workflow nodes will be placed here -->
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Sidebar - Properties Panel -->
+            <aside class="sidebar-right">
+                <div class="sidebar-header">
+                    <h3>Properties</h3>
+                </div>
+                <div id="node-properties" class="properties-panel">
+                    <div class="no-selection">
+                        <p>Select a node to view its properties</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Bottom Panel - Execution Log -->
+        <footer class="bottom-panel">
+            <div class="panel-tabs">
+                <button class="tab-button active" data-tab="execution">Execution Log</button>
+                <button class="tab-button" data-tab="debug">Debug</button>
+                <button class="tab-button" data-tab="performance">Performance</button>
+            </div>
+            <div class="panel-content">
+                <div id="execution-log" class="log-panel active">
+                    <div class="log-entry">
+                        <span class="timestamp">00:00:00</span>
+                        <span class="log-info">Visual AGI Node Editor initialized</span>
+                    </div>
+                </div>
+                <div id="debug-panel" class="log-panel">
+                    <div class="log-entry">
+                        <span class="timestamp">00:00:00</span>
+                        <span class="log-debug">Debug panel ready</span>
+                    </div>
+                </div>
+                <div id="performance-panel" class="log-panel">
+                    <div class="performance-metrics">
+                        <div class="metric">
+                            <span class="metric-label">Nodes:</span>
+                            <span id="node-count">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Connections:</span>
+                            <span id="connection-count">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Execution Time:</span>
+                            <span id="execution-time">0ms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Context Menus -->
+    <div id="canvas-context-menu" class="context-menu">
+        <div class="context-item" data-action="paste">Paste Node</div>
+        <div class="context-item" data-action="select-all">Select All</div>
+        <div class="context-divider"></div>
+        <div class="context-item" data-action="clear">Clear Canvas</div>
+    </div>
+
+    <div id="node-context-menu" class="context-menu">
+        <div class="context-item" data-action="copy">Copy</div>
+        <div class="context-item" data-action="duplicate">Duplicate</div>
+        <div class="context-divider"></div>
+        <div class="context-item" data-action="lock">Lock Node</div>
+        <div class="context-item" data-action="unlock" style="display:none;">Unlock Node</div>
+        <div class="context-divider"></div>
+        <div class="context-item context-subtitle" style="cursor:default;">Color</div>
+        <div class="color-palette" id="node-color-palette">
+            <div class="color-swatch" data-color="#E74C3C" title="Red" style="background:#E74C3C"></div>
+            <div class="color-swatch" data-color="#E67E22" title="Orange" style="background:#E67E22"></div>
+            <div class="color-swatch" data-color="#F1C40F" title="Yellow" style="background:#F1C40F"></div>
+            <div class="color-swatch" data-color="#2ECC71" title="Green" style="background:#2ECC71"></div>
+            <div class="color-swatch" data-color="#1ABC9C" title="Teal" style="background:#1ABC9C"></div>
+            <div class="color-swatch" data-color="#3498DB" title="Blue" style="background:#3498DB"></div>
+            <div class="color-swatch" data-color="#9B59B6" title="Purple" style="background:#9B59B6"></div>
+            <div class="color-swatch" data-color="#EC407A" title="Pink" style="background:#EC407A"></div>
+            <div class="color-swatch" data-color="#95A5A6" title="Gray" style="background:#95A5A6"></div>
+        </div>
+        <div class="context-item" data-action="reset-node-color">Reset Color</div>
+        <div class="context-divider"></div>
+        <div class="context-item" data-action="delete">Delete</div>
+    </div>
+
+    <div id="connection-context-menu" class="context-menu">
+        <div class="context-item" data-action="delete-connection">Delete Connection</div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/logger.js?v=20250921-2012"></script>
+    <script src="js/websocket-client.js?v=20250921-2012"></script>
+    <script src="js/node-palette.js?v=20250921-2012"></script>
+    <script src="js/grid-layer.js?v=20250921-2012"></script>
+    <script src="js/fx.js?v=20250921-2012"></script>
+    <script src="js/workflow-canvas.js?v=20250921-2012"></script>
+    <script src="js/workflow-import-export.js?v=20250921-2012"></script>
+    <script src="js/workflow-execution.js?v=20250921-2012"></script>
+    <script src="js/node-properties.js?v=20250921-2012"></script>
+    <script src="js/main.js?v=20250921-2012"></script>
+</body>
+</html>

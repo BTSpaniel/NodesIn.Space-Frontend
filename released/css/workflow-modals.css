@@ -1,0 +1,271 @@
+/* Workflow Modal Styles */
+
+.workflow-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #2d2d30;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    min-width: 400px;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: scale(0.9) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #464647;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #cccccc;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background-color: #464647;
+    color: #ffffff;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-footer {
+    padding: 16px 24px 24px;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #cccccc;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-input, .form-select {
+    width: 100%;
+    background-color: #3c3c3c;
+    border: 1px solid #464647;
+    border-radius: 4px;
+    color: #ffffff;
+    padding: 10px 12px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: #0078d4;
+    box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2);
+}
+
+.form-select option {
+    background-color: #3c3c3c;
+    color: #ffffff;
+}
+
+.help-text {
+    color: #8c8c8c;
+    font-size: 12px;
+    line-height: 1.4;
+    margin-top: 8px;
+    display: block;
+}
+
+/* Modal Buttons */
+.workflow-modal .btn {
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 80px;
+}
+
+.workflow-modal .btn-primary {
+    background-color: #0078d4;
+    color: #ffffff;
+    border-color: #106ebe;
+}
+
+.workflow-modal .btn-primary:hover {
+    background-color: #106ebe;
+}
+
+.workflow-modal .btn-secondary {
+    background-color: transparent;
+    color: #cccccc;
+    border-color: #464647;
+}
+
+.workflow-modal .btn-secondary:hover {
+    background-color: #464647;
+    color: #ffffff;
+}
+
+/* Save Dialog Specific */
+.save-dialog .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Load Dialog Specific */
+.load-dialog .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Workflow Selection Dialog */
+.workflow-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #464647;
+    border-radius: 4px;
+    background-color: #3c3c3c;
+}
+
+.workflow-item {
+    padding: 12px;
+    border-bottom: 1px solid #464647;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workflow-item:last-child {
+    border-bottom: none;
+}
+
+.workflow-item:hover {
+    background-color: #464647;
+}
+
+.workflow-item.selected {
+    background-color: #0078d4;
+    color: #ffffff;
+}
+
+.workflow-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: inherit;
+}
+
+.workflow-meta {
+    font-size: 12px;
+    color: #8c8c8c;
+}
+
+.workflow-item.selected .workflow-meta {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.workflow-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.workflow-actions button {
+    background: none;
+    border: 1px solid #464647;
+    color: #cccccc;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.workflow-actions button:hover {
+    background-color: #464647;
+    color: #ffffff;
+}
+
+.workflow-item.selected .workflow-actions button {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.workflow-item.selected .workflow-actions button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+/* Inline message and error styles */
+.modal-message {
+    color: #dddddd;
+    font-size: 14px;
+}
+
+.form-error {
+    display: none;
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 6px;
+}
