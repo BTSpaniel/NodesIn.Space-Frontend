@@ -1,117 +1,119 @@
-Visual Node Editor Frontend
-A zero-build, static frontend for creating and executing node-based workflows. It connects to a backend over WebSocket, renders node definitions provided by the server, and offers a drag-and-drop editor with live execution feedback.
-Repository: https://github.com/BTSpaniel/NodesIn.Space-Frontend
-Features
+# 🎛️ Visual Node Editor Frontend
 
-Dynamic Node Palette - Populated from backend definitions (single source of truth)
-Drag-and-Drop Canvas - With pan/zoom and world-scale grid
-Type-Aware Connections - Visual mismatch hints and port badges
-Execution Controls - Start/stop with live progress, logs, and latency indicator
-Save/Load Workflows - To file, browser localStorage, or backend
-Modern Visuals - Optional 3D node effects and neon grid theme
+> A zero-build, static frontend for creating and executing node-based workflows with live feedback
 
-Project Structure
-Key files and modules under src/gui/frontend/:
-Core Files
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![WebSocket](https://img.shields.io/badge/WebSocket-Enabled-blue.svg)](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 
-index.html — App shell and script includes
-css/node-editor-style.css — Core editor styles and 3D theme
-css/workflow-modals.css — Save/Load modal styles
+## ✨ Features
 
-JavaScript Modules
+🎨 **Dynamic Node Palette** - Populated from backend definitions (single source of truth)  
+🖱️ **Drag-and-Drop Canvas** - With pan/zoom and world-scale grid  
+🔗 **Type-Aware Connections** - Visual mismatch hints and port badges  
+⚡ **Live Execution** - Start/stop with real-time progress, logs, and latency  
+💾 **Flexible Save/Load** - To file, browser localStorage, or backend  
+🌟 **Modern Visuals** - Optional 3D node effects and neon grid theme  
 
-js/main.js — App bootstrap, event wiring, high-level UI flows
-js/websocket-client.js — WebSocket client with auto-connect and heartbeat/ping
-js/node-palette.js — Node library fed by backend available_nodes
-js/workflow-canvas.js — Canvas engine: nodes, ports, connections, pan/zoom
-js/node-properties.js — Right-side property panel: render/validate/bind
-js/workflow-execution.js — Execute/stop/pause/resume, validate, metrics/history
-js/workflow-import-export.js — Save/Load (file, localStorage, backend)
-js/fx.js — 3D and glow effects for nodes and wires
-js/grid-layer.js — Background grid that tracks zoom/pan
+## 🚀 Quick Start
 
-WebSocket API
-The frontend communicates with the backend via WebSocket messages (see js/websocket-client.js):
-Requests
+1. Clone the repository
+2. Host the contents of `src/gui/frontend/` on any static server
+3. Ensure your WebSocket backend is running on `ws://localhost:8001`
+4. Open in browser and start building workflows!
 
-execute_workflow
-stop_execution
-validate_workflow
-save_workflow
-list_workflows
-load_workflow
-delete_workflow
-rename_workflow
-ping
+## 📁 Project Structure
 
-Events
+```
+src/gui/frontend/
+├── index.html                    # App shell and script includes
+├── css/
+│   ├── node-editor-style.css     # Core editor styles and 3D theme
+│   └── workflow-modals.css       # Save/Load modal styles
+└── js/
+    ├── main.js                   # App bootstrap and UI flows
+    ├── websocket-client.js       # WebSocket with auto-connect
+    ├── node-palette.js           # Node library from backend
+    ├── workflow-canvas.js        # Canvas engine and interactions
+    ├── node-properties.js        # Property panel management
+    ├── workflow-execution.js     # Execution controls and monitoring
+    ├── workflow-import-export.js # Save/Load functionality
+    ├── fx.js                     # 3D effects and animations
+    └── grid-layer.js             # Background grid rendering
+```
 
-node_execution_start
-node_execution_complete
-node_execution_error
-execution_progress
-workflow_complete
-workflow_saved
-workflow_loaded
-workflow_list
-workflow_deleted
-workflow_renamed
-pong
-error
-connection_established
+## 🔌 WebSocket API
 
-How to Use the Editor
-Node Palette (Left Panel)
+### 📤 Requests (Frontend → Backend)
+- `execute_workflow` `stop_execution` `validate_workflow`
+- `save_workflow` `list_workflows` `load_workflow` 
+- `delete_workflow` `rename_workflow` `ping`
 
-Search and drag nodes onto the canvas
 
-Canvas Controls
+## 🎮 How to Use
 
-Pan: Drag empty space
-Zoom: Mouse wheel
-Connect: Drag from an output port to an input port
-Context Menus: Right-click on canvas, nodes, or connections
+### Node Palette (Left)
+- Search for nodes by name or type
+- Drag nodes onto the canvas to add them
 
-Properties Panel (Right)
+### Canvas Controls
+- **Pan:** Drag empty space
+- **Zoom:** Mouse wheel
+- **Connect:** Drag from output port → input port
+- **Context Menu:** Right-click anywhere
 
-Edit node properties as defined in the node definition
+### Properties Panel (Right)
+- Edit node properties and parameters
+- Real-time validation and hints
 
-Execution (Top Bar)
+### Execution Bar (Top)
+- Click **Execute** to run workflows
+- Monitor progress with live logs
+- View performance metrics
 
-Click "Execute" to run the workflow against the backend
-Live status, logs, and metrics update during execution
+### Save/Load Options
+- 📄 **File:** Export/import JSON
+- 💾 **Local Storage:** Browser persistence  
+- 🌐 **Backend:** Server-side storage
 
-Save/Load Options
+## ⚙️ Configuration
 
-File: Export/import JSON
-Local Storage: Save inside the browser
-Backend: Uses WebSocket endpoints if implemented
+### WebSocket Connection
+```javascript
+// Default: ws://localhost:8001
+// Override with:
+window.WS_URL = 'ws://your-backend-url:port';
+```
 
-Configuration
-WebSocket URL
+## 🚀 Deployment
 
-Defaults to ws://localhost:8001 for local development
-Override via window.WS_URL if needed
+1. **Static Hosting:** Upload `src/gui/frontend/` to any static host
+2. **Backend Connection:** Update `window.WS_URL` for production
+3. **Headers:** Configure CSP for WebSocket connections
+4. **Testing:** Verify backend connectivity
 
-Security Headers
-If hosting behind a static host with strict headers:
 
-Adjust _headers as needed
-Keep external domains to a minimum
-Update connect-src carefully for CSP
+## 🔒 Security & Privacy
 
-Deployment
+✅ **No secrets required** - Frontend contains no sensitive data  
+✅ **Runtime configuration** - Use `window.WS_URL` for endpoints  
+✅ **No embedded tokens** - Keep credentials server-side  
 
-Host the contents of src/gui/frontend/ on any static hosting platform
-Ensure your WebSocket backend is reachable from the hosted origin
-Update window.WS_URL if necessary
-Configure _headers or your host's header config for CSP/security if applicable
+## 🛠️ Development
 
-Security & Privacy
+This is a zero-build frontend - no compilation step required!
 
-This frontend contains no secrets and requires none to run
-Avoid embedding private keys or tokens in the HTML/JS
-For endpoint configuration, use window.WS_URL at runtime or environment-specific HTML
+1. Make changes to HTML/CSS/JS files
+2. Refresh browser to see updates
+3. Use browser dev tools for debugging
 
-License
-MIT License
+## 📝 License
+
+MIT License - feel free to use in your projects!
+
+## 🤝 Contributing
+
+Issues and pull requests welcome! Please check existing issues first.
+
+---
+
+**Built with ❤️ for the node-based workflow community**
